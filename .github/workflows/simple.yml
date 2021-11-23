@@ -12,3 +12,8 @@ jobs:
         run: |
           node -v
           npm -v
+      - name: python command
+        run: |
+          import platform
+          print(platform.processor())
+        shell: python                            # specifies shell type, the list is found here: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idstepsshell
