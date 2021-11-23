@@ -17,3 +17,11 @@ jobs:
           import platform
           print(platform.processor())
         shell: python                            # specifies shell type, the list is found here: https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idstepsshell
+  run-windows-commands:
+    runs-on: windows-latest
+    steps:
+      - name: get directory with powershell
+        run: Get-Location
+      - name: get directory with bash
+        run: pwd
+        shell: bash
