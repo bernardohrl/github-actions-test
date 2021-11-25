@@ -1,0 +1,11 @@
+name: Actions workflow
+on: [push]
+
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Simple JS Action
+      uses: actions/hello-world-javascript-action@main      #{username}/{repository}@{branch or commit id or version}
+      with:
+        who-to-greet: 'Bernardo'
