@@ -5,6 +5,7 @@ jobs:
   run-github-actions:
     runs-on: ubuntu-latest
     steps:
+
     - name: Simple JS Action
       id: greet
       uses: actions/hello-world-javascript-action@main      #{username}/{repository}@{branch or commit id or version}
@@ -19,11 +20,22 @@ jobs:
     - name: Log Greeting Time
       run: echo "Greeting time ${{steps.greet.outputs.time}}"
 
-    - name: Checkout
+    - name: Checkout                                                 # copy repository to vm
       uses: actions/checkout@v1
 
     - name: List Files after Checkout
       run: |
         pwd
         ls -a
+    
+    - name: Local Variables
+      run: |
+        echo $GITHUB_SHA
+        echo $GITHUB_REPOSITORY
+        echo $GITHUB_WORKSPACE 
+        echo ${{ steps }}
+        echo ${{ github.token }}
+
+     
+    
       
