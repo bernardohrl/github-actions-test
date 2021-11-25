@@ -6,6 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Simple JS Action
+      id: greet
       uses: actions/hello-world-javascript-action@main      #{username}/{repository}@{branch or commit id or version}
       with:
         who-to-greet: 'Bernardo'
+    - name: Log Greeting Time
+      run: echo "Greeting time ${{steps.greet.outputs.time}}"
