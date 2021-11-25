@@ -10,5 +10,20 @@ jobs:
       uses: actions/hello-world-javascript-action@main      #{username}/{repository}@{branch or commit id or version}
       with:
         who-to-greet: 'Bernardo'
+
+    - name: List Files
+      run: |
+        pwd
+        ls
+
     - name: Log Greeting Time
       run: echo "Greeting time ${{steps.greet.outputs.time}}"
+
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: List Files after Checkout
+      run: |
+        pwd
+        ls -a
+      
