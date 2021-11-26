@@ -1,13 +1,22 @@
 name: Handling Workflow
 on:
+  push:
+    branches:
+      - main
+      # matches anything that starts with featre (feature/1, feature/2)
+      # but does not match anything with another '/' (feature/1/1, feature 2/3)
+      - 'feature/*' 
+      # matches feature/x/x
+      - feature/**
+
   # - cron: "minuts hours dayOfMonth month dayOfWeek"
   # schedule:
   #   - cron: "0/5 * * * *"
   # push:
   # pull_request:
   #   types: [closed, assigned, opened, reopened]
-  repository_dispatch:
-    types: [ build ]
+  # repository_dispatch:
+  #   types: [ build ]
 
 jobs:
   run-shell-command:
