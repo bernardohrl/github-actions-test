@@ -1,5 +1,8 @@
 name: Handling Workflow
 on: 
+  # - cron: "minuts hours dayOfMonth month dayOfWeek"
+  schedule:
+    - cron: "0/5 * * * *"
   push:
   pull_request:
     types: [closed, assigned, opened, reopened]
@@ -8,5 +11,5 @@ jobs:
   run-shell-command:
     runs-on: ubuntu-latest
     steps:
-      - name: echo a string
+      - name: echo a string 
         run: echo "Testing if string is echoed"
