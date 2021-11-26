@@ -1,19 +1,26 @@
 name: Handling Workflow
 on:
   push:
-    branches:
-      - main
-      # matches anything that starts with featre (feature/1, feature/2)
-      # but does not match anything with another '/' (feature/1/1, feature 2/3)
-      - 'feature/*' 
-      # matches feature/x/x
-      - 'feature/**'
-      # ignore branch 
-      - '!feature/X'
-    tags:
-      - v1.*           # runs only if some commit has tag, also has tags-ignore
-    paths:
-      - '**.js'        # runs only if some js file is changed, also has paths-ignore
+    branches-ignore:             # Temporaly disables workflow
+      - '**'
+
+
+
+
+  # push:
+  #   branches:
+  #     - main
+  #     # matches anything that starts with featre (feature/1, feature/2)
+  #     # but does not match anything with another '/' (feature/1/1, feature 2/3)
+  #     - 'feature/*' 
+  #     # matches feature/x/x
+  #     - 'feature/**'
+  #     # ignore branch 
+  #     - '!feature/X'
+  #   tags:
+  #     - v1.*           # runs only if some commit has tag, also has tags-ignore
+  #   paths:
+  #     - '**.js'        # runs only if some js file is changed, also has paths-ignore
 
   # - cron: "minuts hours dayOfMonth month dayOfWeek"
   # schedule:
