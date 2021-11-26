@@ -1,15 +1,17 @@
 name: Handling Workflow
-on: 
+on:
   # - cron: "minuts hours dayOfMonth month dayOfWeek"
-  schedule:
-    - cron: "0/5 * * * *"
-  push:
-  pull_request:
-    types: [closed, assigned, opened, reopened]
+  # schedule:
+  #   - cron: "0/5 * * * *"
+  # push:
+  # pull_request:
+  #   types: [closed, assigned, opened, reopened]
+  repository_dispatch:
+    types: [ build ]
 
 jobs:
   run-shell-command:
     runs-on: ubuntu-latest
     steps:
-      - name: echo a string 
-        run: echo "Testing if string is echoed"
+      - name: Checks Payload from post 
+        run: echo ${{ github.event.client_payload.env }}
