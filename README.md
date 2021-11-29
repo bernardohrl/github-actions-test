@@ -7,3 +7,5 @@ Default environment variables: https://thoughtworks.udemy.com/course/github-acti
 Github token: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 
 Encrypted Secrets: https://docs.github.com/en/actions/security-guides/encrypted-secrets
+
+Contexts and Variables: https://docs.github.com/en/actions/learn-github-actions/contexts
