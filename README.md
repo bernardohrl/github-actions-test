@@ -5,3 +5,5 @@ Filter pattern cheat sheet: https://docs.github.com/en/actions/learn-github-acti
 Default environment variables: https://thoughtworks.udemy.com/course/github-actions/learn/lecture/17438370#notes
 
 Github token: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+
+Encrypted Secrets: https://docs.github.com/en/actions/security-guides/encrypted-secrets
