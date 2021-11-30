@@ -7,10 +7,21 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
         node_version: [6, 8, 10]
-      max-parallel: 2                             # Max number of jobs running node versions in parallel
-      fail-fast: true                             # If one version fails, cancels all the others
+        exclude:                                  # Exclui algumas chaves caso as combinações não sejam necessárias
+          - os: ubuntu-latest
+            node_version: 6
+          - os: macos-latest
+            node_version: 8
+        include:                                  # Inclui variáveis extrar para algum conjunto de valores que já exista na matriz, e tem que ser string
+          - os: ubuntu-latest
+            node_version: 8
+            is_ubuntu_8: "true"
+      max-parallel: 3                             # Número máximo de combinações rodando em sequência
+      fail-fast: true                             # Se uma combinação falha, não roda nenhuma para frente
     runs-on: ${{ matrix.os }}
-    
+    env: 
+      IS_UBUNTU_8: ${{ matrix.is_ubuntu_8 }}
+
     steps:
       - name: Log node version
         run: node -v
@@ -18,6 +29,10 @@ jobs:
       - uses: actions/setup-node@v1
         with: 
           node-version: ${{ matrix.node_version }}
+
+      - name: Runs just if its ubuntu and version 8
+        if: ${{ env.IS_UBUNTU_8 == 'true' }}
+        run: echo "É a vesão 8 e os ubuntu em"
 
       - name: Log node version
         run: node -v
