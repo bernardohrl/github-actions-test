@@ -11,17 +11,27 @@ jobs:
       - name: Log node version                                # Passo vai rodar dentro do container
         run: node -v
       
-      - name: Step with docker
-        uses: docker://node:14-alpine3.13                     # Com 'uses' podemos utilizar essa imagem apenas nesse passo
-        with:                                                 # Podemos sobrescrever os entrypoints da imagem usando a chave 'with'
-          entrypoint: /bin/echo
-          args: Hello World
+      # - name: Step with docker
+      #   uses: docker://node:14-alpine3.13                     # Com 'uses' podemos utilizar essa imagem apenas nesse passo
+      #   with:                                                 # Podemos sobrescrever os entrypoints da imagem usando a chave 'with'
+      #     entrypoint: /bin/echo
+      #     args: Hello World
 
-      - name: Log node version exclusive container
+      # - name: Log node version exclusive container
+      #   uses: docker://node:14-alpine3.13                    
+      #   with:                                                
+      #     entrypoint: /usr/local/bin/node
+      #     args: -v
+
+
+      # Para rodar o scipt, é necessário baixar o repositório localmente
+      - uses: actions/checkout@v1
+      
+      - name: Run a script
         uses: docker://node:14-alpine3.13                    
         with:                                                
-          entrypoint: /usr/local/bin/node
-          args: -v
+          entrypoint: ./script.sh
+          args: sadly it takes as different arguments
 
   # node-docker:
   #   runs-on: ubuntu-latest
