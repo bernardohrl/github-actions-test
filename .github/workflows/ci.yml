@@ -19,6 +19,17 @@ jobs:
         with:
           node-version: "12.x"
 
+      # Toda vez que key mudar, deverá baixar novamente as dependências
+      # Se a hash do arquivo mudar, significa que o arquivo foi alterado, então as dependências foram alteradas, e devem ser baixadas novamente.
+      # Também deverá mudar caso o OS seja diferente
+      - name: Cache Dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashfiles('**/package-lock.json') }}
+          restore-keys: |                                                               # Restore-keys são keys extras caso o github não ache nenhuma key. Assim, pegará alguma key antiga que comece com o padrão indicado.
+            ${{ runner.os }}-node-  
+
       - name: Install Depencendies
         run: npm ci
 
