@@ -1,0 +1,70 @@
+name: CI
+
+on: 
+  pull_request:
+    branches: [ develop ]
+  push:
+    branches: [ develop ]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+
+      - name: Use scpecific Node Version
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      # Toda vez que key mudar, deverá baixar novamente as dependências
+      # Se a hash do arquivo mudar, significa que o arquivo foi alterado, então as dependências foram alteradas, e devem ser baixadas novamente.
+      # Também deverá mudar caso o OS seja diferente
+      - name: Cache Dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashfiles('**/package-lock.json') }}
+          restore-keys: |                                                               # Restore-keys são keys extras caso o github não ache nenhuma key. Assim, pegará alguma key antiga que comece com o padrão indicado.
+            ${{ runner.os }}-node-  
+
+      - name: Install Depencendies
+        run: npm ci
+
+      - name: Check Code Formating
+        run: npm run format:check
+
+      - name: Run Tests
+        run: npm test -- --coverage
+        env:
+          CI: true
+
+      - name: Upload Test Coverage
+        uses: actions/upload-artifact@v1
+        with: 
+          name: code-coverage
+          path: coverage
+      
+      - name: Build Project
+        if: ${{ github.event_name == 'push' }}
+        run: npm run build
+
+      - name: Upload Build Folder
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/upload-artifact@v1
+        with: 
+          name: build
+          path: build
+
+      - name: Deploy to Staging
+        if: ${{ github.event_name == 'push' }}
+        run: npx surge --project ./build --domain smelly-laugh.surge.sh
+        env: 
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      
+
+      
+
