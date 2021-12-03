@@ -2,9 +2,9 @@ name: CI
 
 on: 
   pull_request:
-    branches: [ master ]
+    branches: [ develop, main ]
   push:
-    branches: [ master ]
+    branches: [ develop, main ]
 
 jobs:
   Build:
@@ -19,15 +19,12 @@ jobs:
         with:
           node-version: "12.x"
 
-      # Toda vez que key mudar, deverá baixar novamente as dependências
-      # Se a hash do arquivo mudar, significa que o arquivo foi alterado, então as dependências foram alteradas, e devem ser baixadas novamente.
-      # Também deverá mudar caso o OS seja diferente
       - name: Cache Dependencies
         uses: actions/cache@v1
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashfiles('**/package-lock.json') }}
-          restore-keys: |                                                               # Restore-keys são keys extras caso o github não ache nenhuma key. Assim, pegará alguma key antiga que comece com o padrão indicado.
+          restore-keys: |
             ${{ runner.os }}-node-  
 
       - name: Install Depencendies
@@ -57,6 +54,12 @@ jobs:
         with: 
           name: build
           path: build
+
+      - name: Create an Release
+        if: ${{ github.event_name == 'push' && github.red == 'refs/head/main' }}
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Staging
         if: ${{ github.event_name == 'push' }}
